@@ -1,0 +1,38 @@
+---
+- hosts: all
+  gather_facts: False
+
+  tasks:
+
+  - name: Disable SElinux
+    selinux: state=disabled
+
+  - name: set timezone to Asia/Kolkata
+    timezone: name=Asia/Kolkata
+
+  - copy: src="{{ item.src }}" dest="{{ item.dest }}"  owner='root' group='root'
+    with_items: 
+       - { src: 'templates/centos.repo', dest: '/etc/yum.repos.d/centos.repo', rmt: "no" }
+       - { src: 'templates/epel-release-latest-7.noarch.rpm', dest: '/tmp/', own: 'root', grp: 'root' }
+       - { src: 'templates/container-selinux-2.68-1.el7.noarch.rpm', dest: '/tmp/', own: 'root', grp: 'root' }
+
+
+  - lineinfile: dest=/etc/yum.conf state=present insertafter="EOF" line="proxy=http://{{proxy_server}}:{{proxy_port}}"  backup=yes
+
+  - name: Install tools
+    yum:
+      name:
+        - wget
+        - telnet
+        - curl
+        - "/tmp/epel-release-latest-7.noarch.rpm"
+      state: present
+
+  - name: Update cache [Shell]
+    shell: "yum makecache"
+    args:
+      warn: false
+
+  - name: Install selinux
+    yum: 
+      name: "/tmp/container-selinux-2.68-1.el7.noarch.rpm"

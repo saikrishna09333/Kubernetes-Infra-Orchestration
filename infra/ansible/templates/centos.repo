@@ -1,0 +1,37 @@
+#
+#
+# Private Cloud rhel repos are non-competent, so we deduceda way to install required packages from corresponding CentOS repositories
+# Disable rhel repos (or any other repo present in Private Cloud Images) before trying to install any package
+# : Anubhav Gupta
+#
+#
+
+[CentOS-7-Base]
+name=CentOS-7-Base
+mirrorlist=http://mirrorlist.centos.org/?release=7&arch=$basearch&repo=os&infra=$infra
+baseurl=http://mirror.centos.org/centos/7/os/$basearch/
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[CentOS-7-Extras]
+name=CentOS-7-Extras
+mirrorlist=http://mirrorlist.centos.org/?release=7&arch=$basearch&repo=extras
+baseurl=http://mirror.centos.org/centos/7/extras/$basearch/
+gpgcheck=0
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-centos7
+
+[CentOS-7-Plus]
+name=CentOS-7-Plus
+mirrorlist=http://mirrorlist.centos.org/?release=7&arch=$basearch&repo=centosplus
+baseurl=http://mirror.centos.org/centos/7/centosplus/$basearch/
+gpgcheck=0
+enabled=0
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-centos7
+
+[CentOS-7-Contrib]
+name=CentOS-7-Contrib
+mirrorlist=http://mirrorlist.centos.org/?release=7&arch=$basearch&repo=contrib
+baseurl=http://mirror.centos.org/centos/7/contrib/$basearch/
+gpgcheck=0
+enabled=0
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-centos7
